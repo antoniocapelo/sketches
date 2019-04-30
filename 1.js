@@ -10,7 +10,6 @@ const settings = {
 };
 
 const sketch = () => {
-  const colorCount = random.rangeFloor(1, 6);
   const palette = random.shuffle(random.pick(pallets));
 
   const createGrid = () => {

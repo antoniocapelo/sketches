@@ -10,7 +10,7 @@ const settings = {
 };
 
 // Your glsl code
-const frag = glsl(/* glsl */`
+const frag = glsl(/* glsl */ `
   precision highp float;
 
   uniform float time;
@@ -19,6 +19,10 @@ const frag = glsl(/* glsl */`
 
   #pragma glslify: noise = require('glsl-noise/simplex/3d');
   #pragma glslify: hsl2rgb = require('glsl-hsl2rgb');
+
+  float rand(vec2 co) {
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);\
+  }
 
   void main () {
     // vec3 colorA = sin(time) + vec3(1., 0., 0.);
@@ -35,16 +39,16 @@ const frag = glsl(/* glsl */`
 
     float n = noise(vec3(center * 2.0, time * 0.25));
 
-    vec3 rgb = hsl2rgb(122./360.0, 0.23 + n * 0.4, 0.75 + cos(1.0 - n) * 0.2);
+    vec3 color = hsl2rgb(122./360.0, 0.23 + n * 0.4, 0.75 + cos(1.0 - n) * 0.2);
 
+    float amount = 0.15;
 
-    vec3 color = hsl2rgb(
-      0.6 + n * 0.2,
-      0.5,
-      0.5
-    );
-
-    gl_FragColor = vec4(rgb, alpha);
+    float diff = (rand(center) - 0.5) * amount;
+    color.r += diff;
+    color.g += diff;
+    color.b += diff;
+            
+    gl_FragColor = vec4(color, alpha);
   }
 `);
 
