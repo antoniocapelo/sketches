@@ -25,13 +25,35 @@ function generateNoise(opacity = 0.2, size = 1, ctx, width, height) {
   }
 }
 
-const sketch = () => {
+const sketch = async () => {
   const mainColor = '#AAD0B0';
   const largeTitleColor = 'white';
   const lineColor = '#EEEEEE';
   const titleColor = 'white';
 
-  const margin = 2;
+  const subtitleFontUrl = 'https://fonts.gstatic.com/s/tangerine/v10/Iurd6Y5j_oScZZow4VO5srNZi5FNym499g.woff2';
+  const subtitleFont = new window.FontFace(
+    'Tangerine-bold',
+    `url(${subtitleFontUrl})`
+  );
+  const antonFontUrl = 'https://fonts.gstatic.com/s/anton/v10/1Ptgg87LROyAm3Kz-C8CSKlv.woff2';
+  const antonFont = new window.FontFace(
+    'Anton-regular',
+    `url(${antonFontUrl})`
+  );
+  const fjallaFontUrl = 'https://fonts.gstatic.com/s/fjallaone/v6/Yq6R-LCAWCX3-6Ky7FAFrOF6kjouQb4.woff2';
+  const fjallaFont = new window.FontFace(
+    'Fjalla One',
+    `url(${fjallaFontUrl})`
+  );
+
+  await subtitleFont.load();
+  await antonFont.load();
+  await fjallaFont.load();
+  document.fonts.add(subtitleFont);
+  document.fonts.add(antonFont);
+  document.fonts.add(fjallaFont);
+
 
   return ({ context, width, height }) => {
     context.fillStyle = mainColor;
@@ -56,12 +78,12 @@ const sketch = () => {
       context.fillStyle = mainColor;
       context.fill();
 
-      context.font = `bold ${width * 0.08}px "Arial"`;
+      context.font = `bold ${width * 0.09}px "Fjalla One"`;
       context.fillStyle = largeTitleColor;
       context.textAlign = 'center'
       context.fillText('Stereo Tipo', width / 2, height / 2);
 
-      context.font = `${width * 0.06}px "Serif"`;
+      context.font = `${width * 0.08}px "Tangerine-bold"`;
       context.fillStyle = titleColor
       context.textAlign = 'center'
       context.fillText('Lemongrass', width / 2, height / 2 + margin*3/4);
