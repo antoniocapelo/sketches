@@ -25,9 +25,6 @@ const frag = glsl(/* glsl */ `
   }
 
   void main () {
-    // vec3 colorA = sin(time) + vec3(1., 0., 0.);
-    // vec3 colorB = vec3(0., 0.5, 0.);
-
     vec2 center = vUv - 0.5;
     center.x *= aspect;
 
@@ -35,11 +32,9 @@ const frag = glsl(/* glsl */ `
 
     float alpha = smoothstep(0.25, 0.2475, dist);
 
-    // vec3 color = mix(colorA, colorB, vUv.x + vUv.y + sin(time * 2.));
+    float n = noise(vec3(center * 2.0, 0.6 * sin(time)));
 
-    float n = noise(vec3(center * 2.0, time * 0.25));
-
-    vec3 color = hsl2rgb(122./360.0, 0.23 + n * 0.4, 0.75 + cos(1.0 - n) * 0.2);
+    vec3 color = hsl2rgb(122./360.0 - n * 0.2, 0.23, 0.75 + n * 0.23);
 
     float amount = 0.15;
 
